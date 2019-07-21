@@ -14,11 +14,19 @@ add_library (
         ${PATH_TO_SUPERPOWERED}/AndroidIO/SuperpoweredAndroidAudioIO.cpp
 )
 
+add_library(audio_processing SHARED IMPORTED)
+
+set_target_properties(audio_processing
+        PROPERTIES IMPORTED_LOCATION
+        ${CMAKE_SOURCE_DIR}/libs/${CMAKE_ANDROID_ARCH_ABI}/libaudio_processing.so)
+
 # link the native library against the following libraries
 target_link_libraries (
         PlayerExample
+        audio_processing
         log
         android
         OpenSLES
         ${PATH_TO_SUPERPOWERED}/libSuperpoweredAndroid${ANDROID_ABI}.a
 )
+

@@ -9,6 +9,8 @@
 #include <malloc.h>
 #include <SLES/OpenSLES_AndroidConfiguration.h>
 #include <SLES/OpenSLES.h>
+#include "ScDsp.h"
+
 
 #define log_print __android_log_print
 
@@ -24,6 +26,10 @@ static bool audioProcessing (
         int __unused samplerate     // sampling rate
 ) {
     if (player->process(floatBuffer, false, (unsigned int)numberOfFrames)) {
+
+        // TODO Should process SC dsp
+
+
         SuperpoweredFloatToShortInt(floatBuffer, audio, (unsigned int)numberOfFrames);
         return true;
     } else {
@@ -144,4 +150,63 @@ Java_com_superpowered_playerexample_MainActivity_Cleanup (
     delete audioIO;
     delete player;
     free(floatBuffer);
+}
+
+
+
+
+
+
+// Add SC process
+ScDsp *scDsp;
+
+
+extern "C"
+JNIEXPORT jlong JNICALL
+Java_com_superpowered_playerexample_AudioProcessorJNI_new_1ScDsp(
+        JNIEnv * __unused env,
+        jobject __unused obj) {
+    jlong jresult;
+
+    (void)env;
+    (void)obj;
+    scDsp = new ScDsp();
+    *(ScDsp **)&jresult = scDsp;
+    return jresult;
+}
+
+extern "C" JNIEXPORT void
+Java_com_superpowered_playerexample_AudioProcessorJNI_setParameter(
+        JNIEnv * __unused env,
+        jobject __unused obj,
+        jlong jarg,
+        jint index,
+        jfloat value) {
+
+    __android_log_print(ANDROID_LOG_ERROR, "SonicCloudSDK", "setParameter %d", index);
+
+}
+
+
+extern "C" JNIEXPORT void
+Java_com_superpowered_playerexample_AudioProcessorJNI_setAudiogram(
+        JNIEnv * __unused env,
+        jobject __unused obj,
+        jlong jarg,
+        jint numPoints,
+        jfloatArray frequencies_,
+        jfloatArray values_) {
+    jfloat *frequencies = env->GetFloatArrayElements(frequencies_, NULL);
+    jfloat *values = env->GetFloatArrayElements(values_, NULL);
+
+    ScDsp *arg1;
+    arg1 = *(ScDsp **)&jarg;
+
+    scDsp->setAudiogram(numPoints, frequencies, values);
+
+
+    __android_log_print(ANDROID_LOG_ERROR, "SonicCloudSDK", "setAudiogram %d", numPoints);
+
+    env->ReleaseFloatArrayElements(frequencies_, frequencies, 0);
+    env->ReleaseFloatArrayElements(values_, values, 0);
 }

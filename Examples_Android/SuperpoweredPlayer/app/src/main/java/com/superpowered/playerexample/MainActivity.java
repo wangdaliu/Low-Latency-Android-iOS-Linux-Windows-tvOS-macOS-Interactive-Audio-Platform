@@ -9,11 +9,13 @@ import android.view.View;
 import android.util.Log;
 import android.os.Bundle;
 
-import com.soniccloud.sdk.AudioProcessor;
-
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
+
+
+    ScDsp scDsp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,14 +50,13 @@ public class MainActivity extends AppCompatActivity {
         OpenFile(path, fileOffset, fileLength);         // open audio file from APK
         // If the application crashes, please disable Instant Run under Build, Execution, Deployment in preferences.
 
-        setHLResults();
-    }
 
-    private void setHLResults() {
-        // TODO Set HL test result
-        float[] frequencies = {2000.0f, 3000.0f, 4000.0f, 6000.0f};
-        float[] values = {40.0f, 50.0f, 60.0f, 70.0f};
-        AudioProcessor.setAudiogram(4, frequencies, values);
+
+
+
+        scDsp = new ScDsp();
+
+        setHLResults();
     }
 
     // Handle Play/Pause button toggle.
@@ -97,4 +98,43 @@ public class MainActivity extends AppCompatActivity {
     private native void Cleanup();
 
     private boolean playing = false;
+
+
+
+
+
+
+
+
+
+
+    // sc process
+    private void setHLResults() {
+        // TODO Set HL test result
+        float[] frequencies = {2000.0f, 3000.0f, 4000.0f, 6000.0f};
+        float[] values = {40.0f, 50.0f, 60.0f, 70.0f};
+        scDsp.setAudiogram(4, frequencies, values);
+    }
+
+    public class ScDsp {
+
+        private transient long swigCPtr;
+
+        private ScDsp(long cPtr) {
+            swigCPtr = cPtr;
+        }
+
+        public ScDsp() {
+            this(AudioProcessorJNI.new_ScDsp());
+        }
+
+        public void setAudiogram(int numPoints, float[] frequencies, float[] values) {
+            AudioProcessorJNI.setAudiogram(swigCPtr, numPoints, frequencies, values);
+        }
+
+        public void setParameter(int index, float value) {
+            AudioProcessorJNI.setParameter(swigCPtr, index, value);
+        }
+    }
+
 }
