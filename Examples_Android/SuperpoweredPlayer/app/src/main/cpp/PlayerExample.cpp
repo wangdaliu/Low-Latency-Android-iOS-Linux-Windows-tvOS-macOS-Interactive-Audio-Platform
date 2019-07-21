@@ -14,6 +14,14 @@
 
 #define log_print __android_log_print
 
+
+
+
+// Add SC process
+ScDsp *scDsp;
+// Add SC process
+
+
 static SuperpoweredAndroidAudioIO *audioIO;
 static SuperpoweredAdvancedAudioPlayer *player;
 static float *floatBuffer;
@@ -28,7 +36,6 @@ static bool audioProcessing (
     if (player->process(floatBuffer, false, (unsigned int)numberOfFrames)) {
 
         // TODO Should process SC dsp
-
 
         SuperpoweredFloatToShortInt(floatBuffer, audio, (unsigned int)numberOfFrames);
         return true;
@@ -157,10 +164,6 @@ Java_com_superpowered_playerexample_MainActivity_Cleanup (
 
 
 
-// Add SC process
-ScDsp *scDsp;
-
-
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_superpowered_playerexample_AudioProcessorJNI_new_1ScDsp(
@@ -179,8 +182,7 @@ Java_com_superpowered_playerexample_AudioProcessorJNI_setParameter(
         jint index,
         jfloat value) {
 
-    __android_log_print(ANDROID_LOG_ERROR, "SonicCloudSDK", "setParameter %d", index);
-
+    scDsp->setParameter(index, value);
 }
 
 
@@ -195,9 +197,6 @@ Java_com_superpowered_playerexample_AudioProcessorJNI_setAudiogram(
     jfloat *values = env->GetFloatArrayElements(values_, NULL);
 
     scDsp->setAudiogram(numPoints, frequencies, values);
-
-
-    __android_log_print(ANDROID_LOG_ERROR, "SonicCloudSDK", "setAudiogram %d", numPoints);
 
     env->ReleaseFloatArrayElements(frequencies_, frequencies, 0);
     env->ReleaseFloatArrayElements(values_, values, 0);

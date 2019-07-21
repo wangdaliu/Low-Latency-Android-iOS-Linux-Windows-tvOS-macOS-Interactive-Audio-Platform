@@ -114,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
         float[] frequencies = {2000.0f, 3000.0f, 4000.0f, 6000.0f};
         float[] values = {40.0f, 50.0f, 60.0f, 70.0f};
         scDsp.setAudiogram(4, frequencies, values);
+
+        scDsp.setParameter(0, 0.2f);
     }
 
     public class ScDsp {

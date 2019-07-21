@@ -7,8 +7,7 @@
 // @param values: 2 float arrays, one per ear, representing test results per frequency in dBHL
 void ScDsp::setAudiogram(int numPoints, float *frequencies, float *values) {
 
-
-    __android_log_print(ANDROID_LOG_ERROR, "SonicCloudSDK", "setAudiogram111111");
+    __android_log_print(ANDROID_LOG_ERROR, "SonicCloudSDK", "setAudiogram");
 }
 
 // set the value of an abstract UI parameter.
@@ -17,6 +16,7 @@ void ScDsp::setAudiogram(int numPoints, float *frequencies, float *values) {
 // @param value: parameter value (float in [0.f, 1.f])
 void ScDsp::setParameter(int index, float value) {
 
+    __android_log_print(ANDROID_LOG_ERROR, "SonicCloudSDK", "setParameter");
 }
 
 // process a block of audio samples.
@@ -25,4 +25,5 @@ void ScDsp::setParameter(int index, float value) {
 // @param out: 2 arrays of float (pointer-to-pointer); de-interleaved output audio channels for writing
 void ScDsp::process(int numSamples, const float *in[2], float *out[2]) {
 
+    __android_log_print(ANDROID_LOG_ERROR, "SonicCloudSDK", "process");
 }
