@@ -9,9 +9,9 @@ public class AudioProcessorJNI {
         }
     }
 
-    public static native long new_ScDsp();
+    public static native void new_ScDsp();
 
-    public static native void setAudiogram(long jarg, int numPoints, float[] frequencies, float[] values);
+    public static native void setAudiogram(int numPoints, float[] frequencies, float[] values);
 
-    public static native void setParameter(long jarg, int index, float value);
+    public static native void setParameter(int index, float value);
 }

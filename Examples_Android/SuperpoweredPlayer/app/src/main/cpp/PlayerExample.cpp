@@ -162,24 +162,20 @@ ScDsp *scDsp;
 
 
 extern "C"
-JNIEXPORT jlong JNICALL
+JNIEXPORT void JNICALL
 Java_com_superpowered_playerexample_AudioProcessorJNI_new_1ScDsp(
         JNIEnv * __unused env,
-        jobject __unused obj) {
-    jlong jresult;
+        jobject __unused obj
+) {
 
-    (void)env;
-    (void)obj;
     scDsp = new ScDsp();
-    *(ScDsp **)&jresult = scDsp;
-    return jresult;
+
 }
 
 extern "C" JNIEXPORT void
 Java_com_superpowered_playerexample_AudioProcessorJNI_setParameter(
         JNIEnv * __unused env,
         jobject __unused obj,
-        jlong jarg,
         jint index,
         jfloat value) {
 
@@ -192,15 +188,11 @@ extern "C" JNIEXPORT void
 Java_com_superpowered_playerexample_AudioProcessorJNI_setAudiogram(
         JNIEnv * __unused env,
         jobject __unused obj,
-        jlong jarg,
         jint numPoints,
         jfloatArray frequencies_,
         jfloatArray values_) {
     jfloat *frequencies = env->GetFloatArrayElements(frequencies_, NULL);
     jfloat *values = env->GetFloatArrayElements(values_, NULL);
-
-    ScDsp *arg1;
-    arg1 = *(ScDsp **)&jarg;
 
     scDsp->setAudiogram(numPoints, frequencies, values);
 

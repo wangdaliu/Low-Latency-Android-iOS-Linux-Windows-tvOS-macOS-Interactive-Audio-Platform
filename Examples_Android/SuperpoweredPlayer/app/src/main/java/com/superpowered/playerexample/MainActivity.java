@@ -118,22 +118,16 @@ public class MainActivity extends AppCompatActivity {
 
     public class ScDsp {
 
-        private transient long swigCPtr;
-
-        private ScDsp(long cPtr) {
-            swigCPtr = cPtr;
-        }
-
         public ScDsp() {
-            this(AudioProcessorJNI.new_ScDsp());
+            AudioProcessorJNI.new_ScDsp();
         }
 
         public void setAudiogram(int numPoints, float[] frequencies, float[] values) {
-            AudioProcessorJNI.setAudiogram(swigCPtr, numPoints, frequencies, values);
+            AudioProcessorJNI.setAudiogram(numPoints, frequencies, values);
         }
 
         public void setParameter(int index, float value) {
-            AudioProcessorJNI.setParameter(swigCPtr, index, value);
+            AudioProcessorJNI.setParameter(index, value);
         }
     }
 
