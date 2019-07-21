@@ -1,0 +1,54 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 28
+
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+        }
+
+        externalNativeBuild {
+            cmake {
+                cppFlags "-frtti -fexceptions"
+                abiFilters "x86", "x86_64", "armeabi-v7a", "arm64-v8a"
+            }
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+
+    // Build jar -- start
+    task deleteJar(type: Delete) {
+        delete 'libs/jars/soniccloud.jar'
+    }
+
+    task createJar(type: Copy) {
+        from('build/intermediates/packaged-classes/release/')
+        into('libs/jars/')
+        include('classes.jar')
+        rename('classes.jar', 'soniccloud.jar')
+    }
+
+    createJar.dependsOn(deleteJar, build)
+    // Build jar -- end
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}

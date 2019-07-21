@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.view.View;
 import android.util.Log;
 import android.os.Bundle;
+
+import com.soniccloud.sdk.AudioProcessor;
+
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
@@ -44,6 +47,16 @@ public class MainActivity extends AppCompatActivity {
         StartAudio(samplerate, buffersize);             // start audio engine
         OpenFile(path, fileOffset, fileLength);         // open audio file from APK
         // If the application crashes, please disable Instant Run under Build, Execution, Deployment in preferences.
+
+        setHLResults();
+    }
+
+    private void setHLResults() {
+        // TODO Set HL test result
+        float[] frequencies = {2000.0f, 3000.0f, 4000.0f, 6000.0f};
+        float[] leftValues = {40.0f, 50.0f, 60.0f, 70.0f};
+        float[] rightValues = {50.0f, 60.0f, 70.0f, 80.0f};
+        AudioProcessor.setAudiogram(4, frequencies, leftValues, rightValues);
     }
 
     // Handle Play/Pause button toggle.
