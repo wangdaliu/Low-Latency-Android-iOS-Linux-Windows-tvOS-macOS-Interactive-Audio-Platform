@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
         // Files under res/raw are not zipped, just copied into the APK.
         // Get the offset and length to know where our file is located.
         AssetFileDescriptor fd = getResources().openRawResourceFd(R.raw.track);
-        int fileOffset = (int)fd.getStartOffset();
-        int fileLength = (int)fd.getLength();
+        int fileOffset = (int) fd.getStartOffset();
+        int fileLength = (int) fd.getLength();
         try {
             fd.getParcelFileDescriptor().close();
         } catch (IOException e) {
@@ -54,13 +54,12 @@ public class MainActivity extends AppCompatActivity {
     private void setHLResults() {
         // TODO Set HL test result
         float[] frequencies = {2000.0f, 3000.0f, 4000.0f, 6000.0f};
-        float[] leftValues = {40.0f, 50.0f, 60.0f, 70.0f};
-        float[] rightValues = {50.0f, 60.0f, 70.0f, 80.0f};
-        AudioProcessor.setAudiogram(4, frequencies, leftValues, rightValues);
+        float[] values = {40.0f, 50.0f, 60.0f, 70.0f};
+        AudioProcessor.setAudiogram(4, frequencies, values);
     }
 
     // Handle Play/Pause button toggle.
-    public void PlayerExample_PlayPause (View button) {
+    public void PlayerExample_PlayPause(View button) {
         TogglePlayback();
         playing = !playing;
         Button b = findViewById(R.id.playPause);
@@ -86,10 +85,15 @@ public class MainActivity extends AppCompatActivity {
 
     // Functions implemented in the native library.
     private native void StartAudio(int samplerate, int buffersize);
+
     private native void OpenFile(String path, int offset, int length);
+
     private native void TogglePlayback();
+
     private native void onForeground();
+
     private native void onBackground();
+
     private native void Cleanup();
 
     private boolean playing = false;

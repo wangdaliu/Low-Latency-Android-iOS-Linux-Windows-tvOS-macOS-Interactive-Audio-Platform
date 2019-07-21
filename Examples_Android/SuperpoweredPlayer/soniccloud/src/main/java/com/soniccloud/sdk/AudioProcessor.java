@@ -7,11 +7,10 @@ public class AudioProcessor {
      *
      * @param numPoints   number of points for each ear (e.g., 4 in the current demo)
      * @param frequencies an array of floats representing the tested frequencies in Hz
-     * @param leftValues  left ear, representing test results per frequency in dBHL
-     * @param rightValues right ear, representing test results per frequency in dBHL
+     * @param values      2 float arrays, one per ear, representing test results per frequency in dBHL
      */
-    public static void setAudiogram(int numPoints, float[] frequencies, float[] leftValues, float[] rightValues) {
-        AudioProcessorJNI.setAudiogram(numPoints, frequencies, leftValues, rightValues);
+    public static void setAudiogram(int numPoints, float[] frequencies, float[] values) {
+        AudioProcessorJNI.setAudiogram(numPoints, frequencies, values);
     }
 
     /**
@@ -24,7 +23,6 @@ public class AudioProcessor {
     public static void setParameter(int index, float value) {
         AudioProcessorJNI.setParameter(index, value);
     }
-
 
 
 }

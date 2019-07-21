@@ -11,7 +11,7 @@ class AudioProcessorJNI {
         }
     }
 
-    public static native void setAudiogram(int numPoints, float[] frequencies, float[] leftValues, float[] rightValues);
+    public static native void setAudiogram(int numPoints, float[] frequencies, float[] values);
 
     public static native void setParameter(int index, float value);
 }

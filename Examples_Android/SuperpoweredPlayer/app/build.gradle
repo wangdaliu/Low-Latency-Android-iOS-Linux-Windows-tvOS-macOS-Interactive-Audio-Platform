@@ -36,11 +36,11 @@ android { // main settings for your application
         }
     }
 
-    sourceSets{
-        main{
-            jniLibs.srcDirs = ['libs']
-        }
-    }
+//    sourceSets{
+//        main{
+//            jniLibs.srcDirs = ['libs']
+//        }
+//    }
 }
 
 dependencies {
