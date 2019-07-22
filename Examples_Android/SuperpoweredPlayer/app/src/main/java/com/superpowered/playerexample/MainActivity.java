@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.view.View;
 import android.util.Log;
 import android.os.Bundle;
+import android.widget.SeekBar;
 
 import java.io.IOException;
 
@@ -59,7 +60,24 @@ public class MainActivity extends AppCompatActivity {
         float[] rightValues = {50.0f, 60.0f, 70.0f, 80.0f};
         scDsp.setAudiogram(4, frequencies, leftValues, rightValues);
 
-        scDsp.setParameter(0, 0.2f);
+        SeekBar seekBar = findViewById(R.id.seekBar);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                scDsp.setParameter(0, (float)progress / 100);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
     }
 
     // Handle Play/Pause button toggle.
