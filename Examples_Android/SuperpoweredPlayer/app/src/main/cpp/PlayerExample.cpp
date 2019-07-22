@@ -34,8 +34,20 @@ static bool audioProcessing (
         int __unused samplerate     // sampling rate
 ) {
     if (player->process(floatBuffer, false, (unsigned int)numberOfFrames)) {
+        float *inL = new float[numberOfFrames / 2];
+        float *inR = new float[numberOfFrames / 2];
 
-        // TODO Should process SC dsp
+        for (int i = 0; i < numberOfFrames / 2; ++i) {
+            inL[i] = floatBuffer[i * 2];
+            inR[i] = floatBuffer[i * 2 + 1];
+        }
+
+        scDsp->process(numberOfFrames, inL, inR, inL, inR);
+
+        for (int i = 0; i < numberOfFrames / 2; ++i) {
+            floatBuffer[i * 2] = inL[i];
+            floatBuffer[i * 2 + 1] = inR[i];
+        }
 
         SuperpoweredFloatToShortInt(floatBuffer, audio, (unsigned int)numberOfFrames);
         return true;

@@ -23,7 +23,7 @@ public:
     // @param numSamples: count of sample frames in this block
     // @param in: 2 arrays of const float (pointer-to-pointer); de-interleaved input audio channels for reading
     // @param out: 2 arrays of float (pointer-to-pointer); de-interleaved output audio channels for writing
-    void process(int numSamples, const float *in[2], float *out[2]);
+    void process(int numSamples, float *inL, float *inR, float *outL, float *outR);
 
 };
 
