@@ -27,21 +27,6 @@ android {
             path "CMakeLists.txt"
         }
     }
-
-    // Build jar -- start
-    task deleteJar(type: Delete) {
-        delete 'libs/jars/soniccloud.jar'
-    }
-
-    task createJar(type: Copy) {
-        from('build/intermediates/packaged-classes/release/')
-        into('libs/jars/')
-        include('classes.jar')
-        rename('classes.jar', 'soniccloud.jar')
-    }
-
-    createJar.dependsOn(deleteJar, build)
-    // Build jar -- end
 }
 
 dependencies {
