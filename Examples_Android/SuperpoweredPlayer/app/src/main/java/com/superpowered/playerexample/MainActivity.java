@@ -112,8 +112,9 @@ public class MainActivity extends AppCompatActivity {
     private void setHLResults() {
         // TODO Set HL test result
         float[] frequencies = {2000.0f, 3000.0f, 4000.0f, 6000.0f};
-        float[] values = {40.0f, 50.0f, 60.0f, 70.0f};
-        scDsp.setAudiogram(4, frequencies, values);
+        float[] leftValues = {40.0f, 50.0f, 60.0f, 70.0f};
+        float[] rightValues = {50.0f, 60.0f, 70.0f, 80.0f};
+        scDsp.setAudiogram(4, frequencies, leftValues, rightValues);
 
         scDsp.setParameter(0, 0.2f);
     }
@@ -124,8 +125,8 @@ public class MainActivity extends AppCompatActivity {
             AudioProcessorJNI.new_ScDsp();
         }
 
-        public void setAudiogram(int numPoints, float[] frequencies, float[] values) {
-            AudioProcessorJNI.setAudiogram(numPoints, frequencies, values);
+        public void setAudiogram(int numPoints, float[] frequencies, float[] leftValues, float[] rightValues) {
+            AudioProcessorJNI.setAudiogram(numPoints, frequencies, leftValues, rightValues);
         }
 
         public void setParameter(int index, float value) {

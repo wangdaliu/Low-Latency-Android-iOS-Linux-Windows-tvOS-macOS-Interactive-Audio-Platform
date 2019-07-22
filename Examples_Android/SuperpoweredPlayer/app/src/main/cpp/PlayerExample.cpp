@@ -166,38 +166,34 @@ Java_com_superpowered_playerexample_MainActivity_Cleanup (
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_superpowered_playerexample_AudioProcessorJNI_new_1ScDsp(
-        JNIEnv * __unused env,
-        jobject __unused obj
-) {
+Java_com_superpowered_playerexample_AudioProcessorJNI_new_1ScDsp(JNIEnv *env, jclass type) {
 
     scDsp = new ScDsp();
 
 }
 
 extern "C" JNIEXPORT void
-Java_com_superpowered_playerexample_AudioProcessorJNI_setParameter(
-        JNIEnv * __unused env,
-        jobject __unused obj,
-        jint index,
-        jfloat value) {
+Java_com_superpowered_playerexample_AudioProcessorJNI_setParameter(JNIEnv *env, jclass type,
+                                                                   jint index,
+                                                                   jfloat value) {
 
     scDsp->setParameter(index, value);
 }
 
-
-extern "C" JNIEXPORT void
-Java_com_superpowered_playerexample_AudioProcessorJNI_setAudiogram(
-        JNIEnv * __unused env,
-        jobject __unused obj,
-        jint numPoints,
-        jfloatArray frequencies_,
-        jfloatArray values_) {
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_superpowered_playerexample_AudioProcessorJNI_setAudiogram(JNIEnv *env, jclass type,
+                                                                   jint numPoints,
+                                                                   jfloatArray frequencies_,
+                                                                   jfloatArray leftValues_,
+                                                                   jfloatArray rightValues_) {
     jfloat *frequencies = env->GetFloatArrayElements(frequencies_, NULL);
-    jfloat *values = env->GetFloatArrayElements(values_, NULL);
+    jfloat *leftValues = env->GetFloatArrayElements(leftValues_, NULL);
+    jfloat *rightValues = env->GetFloatArrayElements(rightValues_, NULL);
 
-    scDsp->setAudiogram(numPoints, frequencies, values);
+    scDsp->setAudiogram(numPoints, frequencies, leftValues, rightValues);
 
     env->ReleaseFloatArrayElements(frequencies_, frequencies, 0);
-    env->ReleaseFloatArrayElements(values_, values, 0);
+    env->ReleaseFloatArrayElements(leftValues_, leftValues, 0);
+    env->ReleaseFloatArrayElements(rightValues_, rightValues, 0);
 }

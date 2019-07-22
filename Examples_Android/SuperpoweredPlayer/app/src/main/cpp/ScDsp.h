@@ -9,8 +9,9 @@ public:
     // set the user's HL levels from test results.
     // @param numPoints: number of points for each ear (e.g., 4 in the current demo)
     // @param frequencies: an array of floats representing the tested frequencies in Hz
-    // @param values: 2 float arrays, one per ear, representing test results per frequency in dBHL
-    void setAudiogram(int numPoints, float *frequencies, float *values);
+    // @param leftValues: left ear, representing test results per frequency in dBHL
+    // @param rightValues: right ear, representing test results per frequency in dBHL
+    void setAudiogram(int numPoints, float *frequencies, float *leftValues, float *rightValues);
 
     // set the value of an abstract UI parameter.
     // (there will only be a small number of these, e.g. "personalization" or "naturalism")

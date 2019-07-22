@@ -4,8 +4,8 @@
 // set the user's HL levels from test results.
 // @param numPoints: number of points for each ear (e.g., 4 in the current demo)
 // @param frequencies: an array of floats representing the tested frequencies in Hz
-// @param values: 2 float arrays, one per ear, representing test results per frequency in dBHL
-void ScDsp::setAudiogram(int numPoints, float *frequencies, float *values) {
+// @param values: left ear, representing test results per frequency in dBHL
+void ScDsp::setAudiogram(int numPoints, float *frequencies, float *leftValues, float *rightValues) {
 
     __android_log_print(ANDROID_LOG_ERROR, "SonicCloudSDK", "setAudiogram");
 }
