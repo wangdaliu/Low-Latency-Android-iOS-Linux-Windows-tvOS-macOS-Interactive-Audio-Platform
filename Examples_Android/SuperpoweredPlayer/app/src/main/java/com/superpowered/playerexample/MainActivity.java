@@ -51,12 +51,15 @@ public class MainActivity extends AppCompatActivity {
         // If the application crashes, please disable Instant Run under Build, Execution, Deployment in preferences.
 
 
-
-
-
         scDsp = new ScDsp();
 
-        setHLResults();
+        // TODO Set HL test result
+        float[] frequencies = {2000.0f, 3000.0f, 4000.0f, 6000.0f};
+        float[] leftValues = {40.0f, 50.0f, 60.0f, 70.0f};
+        float[] rightValues = {50.0f, 60.0f, 70.0f, 80.0f};
+        scDsp.setAudiogram(4, frequencies, leftValues, rightValues);
+
+        scDsp.setParameter(0, 0.2f);
     }
 
     // Handle Play/Pause button toggle.
@@ -98,40 +101,4 @@ public class MainActivity extends AppCompatActivity {
     private native void Cleanup();
 
     private boolean playing = false;
-
-
-
-
-
-
-
-
-
-
-    // sc process
-    private void setHLResults() {
-        // TODO Set HL test result
-        float[] frequencies = {2000.0f, 3000.0f, 4000.0f, 6000.0f};
-        float[] leftValues = {40.0f, 50.0f, 60.0f, 70.0f};
-        float[] rightValues = {50.0f, 60.0f, 70.0f, 80.0f};
-        scDsp.setAudiogram(4, frequencies, leftValues, rightValues);
-
-        scDsp.setParameter(0, 0.2f);
-    }
-
-    public class ScDsp {
-
-        public ScDsp() {
-            AudioProcessorJNI.new_ScDsp();
-        }
-
-        public void setAudiogram(int numPoints, float[] frequencies, float[] leftValues, float[] rightValues) {
-            AudioProcessorJNI.setAudiogram(numPoints, frequencies, leftValues, rightValues);
-        }
-
-        public void setParameter(int index, float value) {
-            AudioProcessorJNI.setParameter(index, value);
-        }
-    }
-
 }

@@ -11,20 +11,13 @@
 #include <SLES/OpenSLES.h>
 #include "ScDsp.h"
 
-
 #define log_print __android_log_print
-
-
-
-
-// Add SC process
-ScDsp *scDsp;
-// Add SC process
-
 
 static SuperpoweredAndroidAudioIO *audioIO;
 static SuperpoweredAdvancedAudioPlayer *player;
 static float *floatBuffer;
+
+ScDsp *scDsp;
 
 // This is called periodically by the audio engine.
 static bool audioProcessing (
@@ -170,11 +163,6 @@ Java_com_superpowered_playerexample_MainActivity_Cleanup (
     delete player;
     free(floatBuffer);
 }
-
-
-
-
-
 
 extern "C"
 JNIEXPORT void JNICALL
