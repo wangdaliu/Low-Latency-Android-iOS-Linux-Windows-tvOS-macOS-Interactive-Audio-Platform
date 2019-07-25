@@ -1,6 +1,8 @@
 #ifndef ScDsp_h
 #define ScDsp_h
 
+#include "GainProcessor.h"
+
 class ScDsp {
 public:
 
@@ -32,6 +34,9 @@ public:
      * @param outR          right ear, de-interleaved output audio channels for writing
      */
     void process(int numSamples, float *inL, float *inR, float *outL, float *outR);
+
+    private:
+        GainProcessor gain;
 
 };
 
