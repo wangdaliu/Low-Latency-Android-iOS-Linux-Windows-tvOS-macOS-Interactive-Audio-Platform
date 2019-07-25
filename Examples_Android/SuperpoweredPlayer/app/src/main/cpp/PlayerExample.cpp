@@ -19,6 +19,9 @@ static float *floatBuffer;
 
 ScDsp *scDsp;
 
+static float *inBuf[2];
+static float *outBuf[2];
+
 // This is called periodically by the audio engine.
 static bool audioProcessing (
         void * __unused clientdata, // custom pointer
@@ -27,19 +30,26 @@ static bool audioProcessing (
         int __unused samplerate     // sampling rate
 ) {
     if (player->process(floatBuffer, false, (unsigned int)numberOfFrames)) {
-        float *inL = new float[numberOfFrames / 2];
-        float *inR = new float[numberOfFrames / 2];
 
-        for (int i = 0; i < numberOfFrames / 2; ++i) {
-            inL[i] = floatBuffer[i * 2];
-            inR[i] = floatBuffer[i * 2 + 1];
+        // de-interleave
+        float* src = floatBuffer;
+        float* dstL = inBuf[0];
+        float* dstR = inBuf[1];
+        for (int fr=0; fr<numberOfFrames; ++fr) {
+            *dstL++ = *src++;
+            *dstR++ = *src++;
         }
 
-        scDsp->process(numberOfFrames, inL, inR, inL, inR);
+        // process
+        scDsp->process(numberOfFrames, inBuf[0], inBuf[1], outBuf[0], outBuf[1]);
 
-        for (int i = 0; i < numberOfFrames / 2; ++i) {
-            floatBuffer[i * 2] = inL[i];
-            floatBuffer[i * 2 + 1] = inR[i];
+        // re-interleave
+        float* dst = floatBuffer;
+        float* srcL = outBuf[0];
+        float* srcR = outBuf[1];
+        for (int fr=0; fr<numberOfFrames; ++fr) {
+            *dst++ = *srcL++;
+            *dst++ = *srcR++;
         }
 
         SuperpoweredFloatToShortInt(floatBuffer, audio, (unsigned int)numberOfFrames);
@@ -88,7 +98,11 @@ Java_com_superpowered_playerexample_MainActivity_StartAudio (
     );
 
     // Allocate audio buffer.
-    floatBuffer = (float *)malloc(sizeof(float) * 2 * buffersize);
+    floatBuffer = new float[buffersize];
+    for (int ch=0; ch<2; ++ch) {
+        inBuf[ch] = new float[buffersize];
+        outBuf[ch] = new float[buffersize];
+    }
     scDsp = new ScDsp();
 
     // Initialize player and pass callback function.
@@ -162,7 +176,11 @@ Java_com_superpowered_playerexample_MainActivity_Cleanup (
 ) {
     delete audioIO;
     delete player;
-    free(floatBuffer);
+    delete floatBuffer;
+    for (int ch=0; ch<2; ++ch) {
+        delete inBuf[ch];
+        delete outBuf[ch];
+    }
 }
 
 //extern "C" JNIEXPORT void
