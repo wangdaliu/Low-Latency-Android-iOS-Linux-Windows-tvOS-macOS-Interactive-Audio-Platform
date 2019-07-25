@@ -35,7 +35,7 @@ static bool audioProcessing (
             inR[i] = floatBuffer[i * 2 + 1];
         }
 
-        scDsp->process(numberOfFrames, inL, inR, inL, inR);
+        // scDsp->process(numberOfFrames, inL, inR, inL, inR);
 
         for (int i = 0; i < numberOfFrames / 2; ++i) {
             floatBuffer[i * 2] = inL[i];
@@ -180,7 +180,7 @@ Java_com_superpowered_playerexample_AudioProcessorJNI_setParameter(
         jint index,
         jfloat value
 ) {
-    scDsp->setParameter(index, value);
+    // scDsp->setParameter(index, value);
 }
 
 extern "C" JNIEXPORT void
