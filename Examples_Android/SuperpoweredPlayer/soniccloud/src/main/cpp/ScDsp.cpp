@@ -15,5 +15,5 @@ void ScDsp::setParameter(int index, float value) {
 
 void ScDsp::process(int numSamples, float *inL, float *inR, float *outL, float *outR) {
     gain.process(numSamples, inL, inR, outL, outR);
-    __android_log_print(ANDROID_LOG_ERROR, "SonicCloudSDK", "process %d", numSamples);
+    // __android_log_print(ANDROID_LOG_ERROR, "SonicCloudSDK", "process %d", numSamples);
 }
