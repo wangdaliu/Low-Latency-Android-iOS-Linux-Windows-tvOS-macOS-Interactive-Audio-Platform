@@ -89,6 +89,7 @@ Java_com_superpowered_playerexample_MainActivity_StartAudio (
 
     // Allocate audio buffer.
     floatBuffer = (float *)malloc(sizeof(float) * 2 * buffersize);
+    scDsp = new ScDsp();
 
     // Initialize player and pass callback function.
     player = new SuperpoweredAdvancedAudioPlayer (
@@ -164,17 +165,17 @@ Java_com_superpowered_playerexample_MainActivity_Cleanup (
     free(floatBuffer);
 }
 
-extern "C" JNIEXPORT void
-Java_com_superpowered_playerexample_AudioProcessorJNI_new_1ScDsp (
-        JNIEnv * __unused env,
-        jobject __unused obj
-) {
-    // Initialize ScDsp
-    scDsp = new ScDsp();
-}
+//extern "C" JNIEXPORT void
+//Java_com_superpowered_playerexample_AudioProcessorJNI_new_1ScDsp (
+//        JNIEnv * __unused env,
+//        jobject __unused obj
+//) {
+//    // Initialize ScDsp
+//    scDsp = new ScDsp();
+//}
 
-extern "C" JNIEXPORT void
-Java_com_superpowered_playerexample_AudioProcessorJNI_setParameter(
+extern "C" JNIEXPORT void JNICALL
+Java_com_superpowered_playerexample_MainActivity_setParameter(
         JNIEnv * __unused env,
         jobject __unused obj,
         jint index,
@@ -183,8 +184,8 @@ Java_com_superpowered_playerexample_AudioProcessorJNI_setParameter(
     scDsp->setParameter(index, value);
 }
 
-extern "C" JNIEXPORT void
-Java_com_superpowered_playerexample_AudioProcessorJNI_setAudiogram(
+extern "C" JNIEXPORT void JNICALL
+Java_com_superpowered_playerexample_MainActivity_setAudiogram(
         JNIEnv * __unused env,
         jobject __unused obj,
         jint numPoints,

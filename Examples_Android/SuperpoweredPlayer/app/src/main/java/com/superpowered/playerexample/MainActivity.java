@@ -15,7 +15,7 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
 
 
-    ScDsp scDsp;
+    // ScDsp scDsp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,20 +51,20 @@ public class MainActivity extends AppCompatActivity {
         OpenFile(path, fileOffset, fileLength);         // open audio file from APK
         // If the application crashes, please disable Instant Run under Build, Execution, Deployment in preferences.
 
-
-        scDsp = new ScDsp();
+        //scDsp = new ScDsp();
 
         // TODO Set HL test result
         float[] frequencies = {2000.0f, 3000.0f, 4000.0f, 6000.0f};
         float[] leftValues = {40.0f, 50.0f, 60.0f, 70.0f};
         float[] rightValues = {50.0f, 60.0f, 70.0f, 80.0f};
-        scDsp.setAudiogram(4, frequencies, leftValues, rightValues);
+
+        setAudiogram(4, frequencies, leftValues, rightValues);
 
         SeekBar seekBar = findViewById(R.id.seekBar);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                scDsp.setParameter(0, (float)progress / 100);
+                setParameter(0, (float)progress / 100);
             }
 
             @Override
@@ -117,6 +117,10 @@ public class MainActivity extends AppCompatActivity {
     private native void onBackground();
 
     private native void Cleanup();
+
+    // additional processing functions
+    private native void setParameter(int index, float value);
+    private native void setAudiogram(int numPoints, float[] frequencies, float[] leftValues, float[] rightValues);
 
     private boolean playing = false;
 }
